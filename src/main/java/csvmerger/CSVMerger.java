@@ -1,6 +1,5 @@
 package csvmerger;
 
-import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -89,7 +88,6 @@ public class CSVMerger {
                 }else{
                     newRecord = Arrays.copyOf(record, newLength);
                     j = 0;
-                    newColumnValues = newValuesList.get(record[joinColumn]);
                     for(int i = record.length ; i <= newLength - 1; i++){
                         newRecord[i] = "";
                         j++;

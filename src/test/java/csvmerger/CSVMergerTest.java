@@ -1,8 +1,6 @@
 package csvmerger;
 
-import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-import csvmerger.pojo.BaseExtended;
 import org.junit.Test;
 
 import java.io.File;
@@ -11,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -62,4 +59,30 @@ public class CSVMergerTest {
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
+
+    @Test
+    public void testJoiningTwoSmallBigCsvFiles(){
+        try {
+            File file1 = new File( this.getClass().getResource( "/base_many_columns.csv" ).toURI() );
+            File file2 = new File( this.getClass().getResource( "/test_many_columns.csv" ).toURI() );
+            List<Integer> listColumns = Arrays.asList(Integer.valueOf(1), Integer.valueOf(2));
+            CSVMerger merger = new CSVMerger();
+            File resultFile = merger.merge(file1, file2, 0, listColumns);
+
+            CSVReader reader = new CSVReader(new FileReader(resultFile.getPath()));
+            String[] record = null;
+            record = reader.readNext();
+            assertTrue(record != null);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
 }
